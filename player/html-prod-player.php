@@ -820,7 +820,7 @@ include 'server/getWaterFall.php';
             }
         });
 
-        jwplayer().onSeek(function (e) {
+        jwplayer().on('seek', function (e) {
 
             if (midrollinterval != null && midrollinterval > 0) {
                 adsLastAdPosition = Math.floor(e.offset - (e.offset % midrollinterval));
@@ -832,13 +832,13 @@ include 'server/getWaterFall.php';
             }
         });
 
-        jwplayer().onReady(function () {
+        jwplayer().on('ready', function () {
             //("player_setup_ready", [], [], null);
             readyTime = Date.now();
 
         });
 
-        jwplayer().onSetupError(function (e) {
+        jwplayer().on('setupError', function (e) {
             //("player_setup_error", [], [], e.message);
             reportError(id, e.message);
 
@@ -849,12 +849,15 @@ include 'server/getWaterFall.php';
 
             //Enabling the controls on play
 
-            jwplayer().setControls(true);
+            console.log('test play', e);
+
+            //jwplayer().setControls(true);
 
         });
 
         var isFirstImpression = true;
         var hadImppression = false;
+
         jwplayer().onAdImpression(function (e) {
             adImpresssionTime = Date.now();
             var duration = adImpresssionTime - startTime;
@@ -878,8 +881,9 @@ include 'server/getWaterFall.php';
 
         });
 
-        jwplayer().onAdPlay( function(e) {
+        jwplayer().onAdPlay(function(e) {
             var liveRail = "ad4.liverail";
+            console.log('Ad starts');
             console.log(e.tag);
             if (e.tag.indexOf(liveRail) == -1) {
                 //setTimeout(function(){
@@ -918,6 +922,8 @@ include 'server/getWaterFall.php';
 
                     callAjax(path + "reportviewNotLR.php?reduce=1&id=" + id + "&tag=" + result.tag);
                 }
+
+
                 hidePlayer();
                 //console.log("on Ad Error: "  + result.tag);
             }
@@ -927,7 +933,7 @@ include 'server/getWaterFall.php';
         // If no ad is served - fallback to banner
 
 
-        jwplayer().onPlaylistComplete(function (e) {
+        jwplayer().on('playlistComplete', function (e) {
 
             adsLastAdPosition = 0;
 
@@ -1031,8 +1037,8 @@ include 'server/getWaterFall.php';
     }
 
     function showPlayer() {
-        $('#mvp_wrapper').css({'width':'302','height':'252'});
-        $('#mvp_wrapper object').css({'width':'302','height':'252'});
+        $('#mvp').css({'width':'302','height':'252'});
+        $('#mvp object').css({'width':'302','height':'252'});
         $('#placeholder').hide();
         if (myVideo!= null) {
             myVideo.pause();
@@ -1041,8 +1047,8 @@ include 'server/getWaterFall.php';
     };
 
     function hidePlayer() {
-        $('#mvp_wrapper').css({'width':'0','height':'0'});
-        $('#mvp_wrapper object').css({'width':'0','height':'0'});
+        $('#mvp').css({'width':'0','height':'0'});
+        $('#mvp object').css({'width':'0','height':'0'});
         $('#placeholder').show();
         if (myVideo!= null) {
             myVideo.play();

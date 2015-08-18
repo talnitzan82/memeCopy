@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('UTC');
-error_reporting(E_ERROR);
+error_reporting(E_ALL);
 
 //Get http params
 $protocol = $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
@@ -65,7 +65,7 @@ $isGoodBoy = $query['isGoodBoy'];
 $getGeo = $query['getGeo'];
 $creativeMedia = '';
 
-include 'uAgentGetter.php';
+//include 'uAgentGetter.php';
 
 if (($getGeo == '') || (!isset($getGeo))) {
     $getGeo = 0;
